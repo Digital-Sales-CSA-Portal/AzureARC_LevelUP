@@ -153,21 +153,21 @@ Write-Output y | pscp -P 22 -pw $nestedLinuxPassword "$agentScript\installArcAge
 Write-Output y | pscp -P 22 -pw $nestedLinuxPassword "$agentScript\installArcAgentModifiedCentOS.sh" $nestedLinuxUsername@"$Ubuntu02IP":/home/"$nestedLinuxUsername"
 
 # Onboarding the nested VMs as Azure Arc-enabled servers
-$secstr = New-Object -TypeName System.Security.SecureString
-$nestedWindowsPassword.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)}
-$cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $nestedWindowsUsername, $secstr
+# $secstr = New-Object -TypeName System.Security.SecureString
+# $nestedWindowsPassword.ToCharArray() | ForEach-Object {$secstr.AppendChar($_)}
+# $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $nestedWindowsUsername, $secstr
 
-Write-Output "Onboarding the nested Windows Server 2019 VM as Azure Arc-enabled server"
-Invoke-Command -VMName ArcBox-Win2K19 -ScriptBlock { powershell -File C:\ArcBox\installArcAgent.ps1 } -Credential $cred
+# Write-Output "Onboarding the nested Windows Server 2019 VM as Azure Arc-enabled server"
+# Invoke-Command -VMName ArcBox-Win2K19 -ScriptBlock { powershell -File C:\ArcBox\installArcAgent.ps1 } -Credential $cred
 
 # Converting Linux credentials to secure string  
 $secpasswd = ConvertTo-SecureString $nestedLinuxPassword -AsPlainText -Force
 $Credentials = New-Object System.Management.Automation.PSCredential($nestedLinuxUsername, $secpasswd)
 
-Write-Output "Onboarding the nested Ubuntu-02 VM as an Azure Arc-enabled server"
-$SessionID = New-SSHSession -ComputerName $Ubuntu02IP -Credential $Credentials -Force -WarningAction SilentlyContinue # Connect Over SSH
-$Command = "sudo sh /home/$nestedLinuxUsername/installArcAgentModifiedCentOS.sh"
-Invoke-SSHCommand -Index $sessionid.sessionid -Command $Command -TimeOut 500 -WarningAction SilentlyContinue | Out-Null
+# Write-Output "Onboarding the nested Ubuntu-02 VM as an Azure Arc-enabled server"
+# $SessionID = New-SSHSession -ComputerName $Ubuntu02IP -Credential $Credentials -Force -WarningAction SilentlyContinue # Connect Over SSH
+# $Command = "sudo sh /home/$nestedLinuxUsername/installArcAgentModifiedCentOS.sh"
+# Invoke-SSHCommand -Index $sessionid.sessionid -Command $Command -TimeOut 500 -WarningAction SilentlyContinue | Out-Null
 
 Write-Output "Disabling IMDS on the nested Ubuntu VM"
 $SessionID = New-SSHSession -ComputerName $Ubuntu01IP -Credential $Credentials -Force -WarningAction SilentlyContinue # Connect Over SSH
