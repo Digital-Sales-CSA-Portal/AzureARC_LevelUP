@@ -1,8 +1,146 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-  "parameters": {},
-  "variables": {},
-  "resources": [],
-  "outputs": {}
+  "parameters": {
+    "myIpAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "IP address allowed SSH and RDP access to ArcBox resources. Usually this is your home or office public IP address."
+      }
+    },
+    "spnClientId": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure service principal client id"
+      }
+    },
+    "spnClientSecret": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure service principal client secret"
+      }
+    },
+    "spnTenantId": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure AD tenant id for your service principal"
+      }
+    },
+    "windowsAdminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for Windows account"
+      }
+    },
+    "windowsAdminPassword": {
+      "type": "securestring",
+      "minLength": 12,
+      "maxLength": 123,
+      "metadata": {
+        "description": "Password for Windows account. Password must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character. The value must be between 12 and 123 characters long."
+      }
+    },
+    "logAnalyticsWorkspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name for your log analytics workspace"
+      }
+    },
+    "githubAccount": {
+      "type": "string",
+      "defaultValue": "microsoft",
+      "metadata": {
+        "description": "Target GitHub account"
+      }
+    },
+    "githubBranch": {
+      "type": "string",
+      "defaultValue": "main",
+      "metadata": {
+        "description": "Target GitHub branch"
+      }
+    }
+  },
+  "variables": {
+    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/azure_arc/', parameters('githubBranch'), '/azure_arc_servers_jumpstart/levelup/')]",
+    "clientVmTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/clientVm/clientVm.json')]",
+    "mgmtTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtArtifacts.json')]",
+    "mgmtStagingStorageUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtStagingStorage.json')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "clientVmDeployment",
+      "dependsOn": [ "mgmtArtifactsAndPolicyDeployment" ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('clientVmTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "windowsAdminUsername": {
+            "value": "[parameters('windowsAdminUsername')]"
+          },
+          "windowsAdminPassword": {
+            "value": "[parameters('windowsAdminPassword')]"
+          },
+          "spnClientId": {
+            "value": "[parameters('spnClientId')]"
+          },
+          "spnClientSecret": {
+            "value": "[parameters('spnClientSecret')]"
+          },
+          "spnTenantId": {
+            "value": "[parameters('spnTenantId')]"
+          },
+          "myIpAddress": {
+            "value": "[parameters('myIpAddress')]"
+          },
+          "workspaceName": {
+            "value": "[parameters('logAnalyticsWorkspaceName')]"
+          },
+          "stagingStorageAccountName": {
+            "value": "[reference('stagingStorageAccountDeployment').outputs.storageAccountName.value]"
+          },
+          "templateBaseUrl": {
+            "value": "[variables('templateBaseUrl')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "stagingStorageAccountDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('mgmtStagingStorageUrl')]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "mgmtArtifactsAndPolicyDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('mgmtTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "workspaceName": {
+            "value": "[parameters('logAnalyticsWorkspaceName')]"
+          },
+          "templateBaseUrl": {
+            "value": "[variables('templateBaseUrl')]"
+          }
+        }
+      }
+    }
+  ]
 }

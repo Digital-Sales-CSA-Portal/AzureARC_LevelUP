@@ -1,0 +1,143 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+		"config": {
+			"basics": {
+				"description": "<p style='text-align:center;'><img src='https://github.com/microsoft/azure_arc/raw/main/img/arcbox_logo.png' width='25%'/></p>"
+			}
+		},
+        "basics": [
+            {}
+        ],
+        "steps": [
+            {
+                "name": "arcboxConfig",
+                "label": "ArcBox Config",
+                "elements": [
+					{
+						"name": "ipAddress",
+						"type": "Microsoft.Common.TextBox",
+						"label": "IP Address",
+						"defaultValue": "",
+						"toolTip": "The IPv4 address of your workstation. Can be found a http://www.icanhazip.com",
+						"multiLine": false,
+						"constraints": {
+							"required": true,
+							"validations": [
+								{
+									"regex": "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
+									"message": "Please enter a valid IPv4 address, for example: 17.18.19.20"
+								}
+							]
+						}
+					},
+					{
+						"name": "spnClientId",
+						"type": "Microsoft.Common.TextBox",
+						"label": "SPN Client ID",
+						"defaultValue": "",
+						"toolTip": "Service Principal client id (AppId).",
+						"multiLine": false,
+						"constraints": {
+							"required": true,
+							"validations": [
+								{
+									"regex": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+									"message": "Please enter a valid Service Principal client id (appId)."
+								}
+							]
+						}
+					},
+					{
+						"name": "spnClientSecret",
+						"type": "Microsoft.Common.TextBox",
+						"label": "SPN Client Secret",
+						"defaultValue": "",
+						"toolTip": "Service Principal client secret (password).",
+						"multiLine": false,
+						"constraints": {
+							"required": true
+						}
+					},
+					{
+						"name": "spnTenantId",
+						"type": "Microsoft.Common.TextBox",
+						"label": "SPN Tenant ID",
+						"defaultValue": "",
+						"toolTip": "Service Principal tenant id.",
+						"multiLine": false,
+						"constraints": {
+							"required": true,
+							"validations": [
+								{
+									"regex": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$",
+									"message": "Please enter a valid Service Principal tenant id."
+								}
+							]
+						}
+					},
+					{
+						"name": "winAdminUsername",
+						"type": "Microsoft.Compute.UserNameTextBox",
+						"label": "Windows Admin Username",
+						"defaultValue": "arcdemo",
+						"toolTip": "Username for the Windows VM.",
+						"constraints": {
+    						"required": true
+						},
+						"osPlatform": "Windows",
+						"visible": true
+					},
+					{
+						"name": "winAdminPassword",
+						"type": "Microsoft.Compute.CredentialsCombo",
+						"label": {
+							"password": "Windows Admin Password",
+							"confirmPassword": "Confirm password"
+						},
+						"toolTip": {
+							"password": "Password for the Windows VM."
+						},
+						"constraints": {
+    						"required": true
+						},
+						"options": {
+							"hideConfirmation": true
+						},
+						"osPlatform": "Windows",
+						"visible": true
+					},
+					{
+						"name": "logAnalyticsWorkspaceName",
+						"type": "Microsoft.Common.TextBox",
+						"label": "Log Analytics Workspace Name",
+						"defaultValue": "ArcBox-Workspace",
+						"toolTip": "The name for the Log Analytics workspace",
+						"multiLine": false,
+						"constraints": {
+							"required": true,
+							"validations": [
+								{
+									"regex": "^[a-zA-Z0-9][a-zA-Z0-9-]{2,61}[a-zA-Z0-9]$",
+									"message": "Can contain alphanumerics and hyphens. Must start and end with alphanumeric. Can be 4-63 charachters."
+								}
+							]
+						}
+					}
+                ]
+            }
+        ],
+        "outputs": {
+			"myIpAddress": "[steps('arcboxConfig').ipAddress]",
+            "spnClientId": "[steps('arcboxConfig').spnClientId]",
+            "spnClientSecret": "[steps('arcboxConfig').spnClientSecret]",
+            "spnTenantId": "[steps('arcboxConfig').spnTenantId]",
+            "windowsAdminUsername": "[steps('arcboxConfig').winAdminUsername]",
+			"windowsAdminPassword": "[steps('arcboxConfig').winAdminPassword.password]",
+			"logAnalyticsWorkspaceName": "[steps('arcboxConfig').logAnalyticsWorkspaceName]",
+			"githubBranch": "arc-levelup-deploy"
+        }
+    }
+}
