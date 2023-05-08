@@ -54,9 +54,21 @@ $fileList = (
     'ArcBox-Win2K22.vhdx'
 )
 
-
-
 azcopy cp $sourceFolder/*$sas $Env:ArcBoxVMDir --include-path ($fileList -Join ';') --check-length=false --log-level=ERROR
+
+$SQLvmName = "ArcBox-SQL"
+$SQLvmvhdPath = "$Env:ArcBoxVMDir\${SQLvmName}.vhdx"
+
+# Verify if VHD files already downloaded especially when re-running this script
+if (!([System.IO.File]::Exists($SQLvmvhdPath) )) {
+    <# Action when all if and elseif conditions are false #>
+    $sourceFolder = 'https://jumpstart.blob.core.windows.net/v2images'
+    $sas = "?sp=rl&st=2022-01-27T01:47:01Z&se=2025-01-27T09:47:01Z&spr=https&sv=2020-08-04&sr=c&sig=NB8g7f4JT3IM%2FL6bUfjFdmnGIqcc8WU015socFtkLYc%3D"
+    $Env:AZCOPY_BUFFER_GB = 4
+    # Other ArcBox flavors does not have an azcopy network throughput capping
+    Write-Output "Downloading nested VMs VHDX file for SQL. This can take some time, hold tight..."
+    azcopy cp "$sourceFolder/${SQLvmName}.vhdx$sas" "$Env:ArcBoxVMDir\${SQLvmName}.vhdx" --check-length=false --cap-mbps 1200 --log-level=ERROR
+}  
 
 # Create the nested VMs
 Write-Output "Create Hyper-V VMs"
@@ -66,8 +78,8 @@ Set-VMProcessor -VMName ArcBox-Win2K19 -Count 2
 New-VM -Name ArcBox-Win2K22 -MemoryStartupBytes 12GB -BootDevice VHD -VHDPath "$Env:ArcBoxVMDir\ArcBox-Win2K22.vhdx" -Path $Env:ArcBoxVMDir -Generation 2 -Switch $switchName
 Set-VMProcessor -VMName ArcBox-Win2K22 -Count 2
 
-# New-VM -Name ArcBox-SQL -MemoryStartupBytes 12GB -BootDevice VHD -VHDPath "$Env:ArcBoxVMDir\ArcBox-SQL.vhdx" -Path $Env:ArcBoxVMDir -Generation 2 -Switch $switchName
-# Set-VMProcessor -VMName ArcBox-SQL -Count 2
+New-VM -Name ArcBox-SQL -MemoryStartupBytes 12GB -BootDevice VHD -VHDPath "$Env:ArcBoxVMDir\ArcBox-SQL.vhdx" -Path $Env:ArcBoxVMDir -Generation 2 -Switch $switchName
+Set-VMProcessor -VMName ArcBox-SQL -Count 2
 
 New-VM -Name ArcBox-Ubuntu-01 -MemoryStartupBytes 4GB -BootDevice VHD -VHDPath "$Env:ArcBoxVMDir\ArcBox-Ubuntu-01.vhdx" -Path $Env:ArcBoxVMDir -Generation 2 -Switch $switchName
 Set-VMFirmware -VMName ArcBox-Ubuntu-01 -EnableSecureBoot On -SecureBootTemplate 'MicrosoftUEFICertificateAuthority'
@@ -81,7 +93,7 @@ Set-VMProcessor -VMName ArcBox-Ubuntu-02 -Count 1
 Write-Output "Set VM auto start/stop"
 Set-VM -Name ArcBox-Win2K19 -AutomaticStartAction Start -AutomaticStopAction ShutDown
 Set-VM -Name ArcBox-Win2K22 -AutomaticStartAction Start -AutomaticStopAction ShutDown
-# Set-VM -Name ArcBox-SQL -AutomaticStartAction Start -AutomaticStopAction ShutDown
+Set-VM -Name ArcBox-SQL -AutomaticStartAction Start -AutomaticStopAction ShutDown
 Set-VM -Name ArcBox-Ubuntu-01 -AutomaticStartAction Start -AutomaticStopAction ShutDown
 Set-VM -Name ArcBox-Ubuntu-02 -AutomaticStartAction Start -AutomaticStopAction ShutDown
 
@@ -92,7 +104,7 @@ Get-VM | Get-VMIntegrationService | Where-Object {-not($_.Enabled)} | Enable-VMI
 Write-Output "Start VMs"
 Start-VM -Name ArcBox-Win2K19
 Start-VM -Name ArcBox-Win2K22
-# Start-VM -Name ArcBox-SQL
+Start-VM -Name ArcBox-SQL
 Start-VM -Name ArcBox-Ubuntu-01
 Start-VM -Name ArcBox-Ubuntu-02
 
