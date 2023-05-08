@@ -62,7 +62,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/AzureArc_LevelUP/', parameters('githubBranch'))]",
+    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/AzureArc_LevelUP/', '/main/')]",
     "clientVmTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/clientVm/clientVm.json')]",
     "mgmtTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtArtifacts.json')]",
     "mgmtStagingStorageUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtStagingStorage.json')]"
