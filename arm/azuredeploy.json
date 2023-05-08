@@ -48,7 +48,7 @@
     },
     "githubAccount": {
       "type": "string",
-      "defaultValue": "microsoft",
+      "defaultValue": "coreystoner",
       "metadata": {
         "description": "Target GitHub account"
       }
@@ -62,7 +62,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/azure_arc/', parameters('githubBranch'), '/azure_arc_servers_jumpstart/levelup/')]",
+    "templateBaseUrl": "[concat('https://raw.githubusercontent.com/', parameters('githubAccount'), '/azure_arc_LevelUP/', parameters('githubBranch'))]",
     "clientVmTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/clientVm/clientVm.json')]",
     "mgmtTemplateUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtArtifacts.json')]",
     "mgmtStagingStorageUrl": "[uri(variables('templateBaseUrl'), 'arm/mgmt/mgmtStagingStorage.json')]"
