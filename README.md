@@ -85,7 +85,7 @@ ArcBox must be deployed to one of the following regions:
 
 2. Choose a target subscription, region, resource group (or create a new one), and region. Click **next**:
 
-    ![LevelUp Deployment Step 1](Media\portal-deployment-01.png)
+    ![LevelUp Deployment Step 1](\Media\portal-deployment-01.png)
 
 3. Fill in your IP from [icanhazip.com](http://www.icanhazip.com), the corresponding fields from the Service Principal creation step above, and the Windows VM login credentials. Click **next**:
 
