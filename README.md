@@ -85,11 +85,11 @@ ArcBox must be deployed to one of the following regions:
 
 2. Choose a target subscription, region, resource group (or create a new one), and region. Click **next**:
 
-    ![LevelUp Deployment Step 1](portal-deployment-01.png)
+    ![LevelUp Deployment Step 1](Media\portal-deployment-01.png)
 
 3. Fill in your IP from [icanhazip.com](http://www.icanhazip.com), the corresponding fields from the Service Principal creation step above, and the Windows VM login credentials. Click **next**:
 
-    ![LevelUp Deployment Step 2](portal-deployment-02.png)
+    ![LevelUp Deployment Step 2](Media\portal-deployment-02.png)
 
     > Please make sure to select a **unique** value for the Log Analytics Workspace Name (e.g. it doesn't overlap any existing Log Analytics Workspace within the target Resource Group)
 
@@ -97,35 +97,35 @@ ArcBox must be deployed to one of the following regions:
 
 4. Review the deployment details, then click **create** to begin the deployment:
 
-    ![LevelUp Deployment Step 3](portal-deployment-03.png)
+    ![LevelUp Deployment Step 3](Media\portal-deployment-03.png)
 
 5. Once the deployment has finished, click **go to resource group***:
 
-    ![LevelUp Deployment Complete](deployment-complete.png)
+    ![LevelUp Deployment Complete](Media\deployment-complete.png)
 
 6. Select the **ArcBox-Client** virtual machine:
 
-    ![LevelUp ArcBox VM](arcbox-vm.png)
+    ![LevelUp ArcBox VM](Media\arcbox-vm.png)
 
 7. Copy the **Public IP** by clicking the copy icon to the right of it:
 
-    ![LevelUp ArcBox Public IP](copy-public-ip.png)
+    ![LevelUp ArcBox Public IP](Media\copy-public-ip.png)
 
 8. Paste the copied **Public IP** into a Remote Desktop window, and click **Connect**:
 
-    ![LevelUp ArcBox RDP](remote-desktop.png)
+    ![LevelUp ArcBox RDP](Media\remote-desktop.png)
 
 9. Watch and wait for the post-deployment automation script to finish:
 
-    ![LevelUp ArcBox Post-Deployment](post-deployment-scripts.png)
+    ![LevelUp ArcBox Post-Deployment](Media\post-deployment-scripts.png)
 
 10. Once the scripts have completed, you should have 2 Linux and 2 Windows VM's, which can be found in **Hyper-V Manager** on the desktop:
 
-    ![LevelUp ArcBox Hyper-V](hyper-v-manager.png)
+    ![LevelUp ArcBox Hyper-V](Media\hyper-v-manager.png)
 
 11. Back in the Resource Group view, you can see that two of the Hyper-V VM's (CentOS & Win2K19) have already been onboarded to Azure Arc on your behalf:
 
-    ![LevelUp ArcBox Arc Onboarded VMs](onboarded-vms.png)
+    ![LevelUp ArcBox Arc Onboarded VMs](Media\onboarded-vms.png)
 
 ## Required Credentials
 

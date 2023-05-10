@@ -48,7 +48,7 @@
     },
     "githubAccount": {
       "type": "string",
-      "defaultValue": "coreystoner",
+      "defaultValue": "Digital-Sales-CSA-Portal",
       "metadata": {
         "description": "Target GitHub account"
       }
