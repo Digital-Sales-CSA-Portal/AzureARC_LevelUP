@@ -1,6 +1,6 @@
 # Azure Arc-enabled servers LevelUp Training
 
-![LevelUp Deployment Diagram](Media\levelup-diagram.png)
+![LevelUp Deployment Diagram](Media/levelup-diagram.png)
 
 The following README will guide you on how to automatically deploy an ArcBox for use with the Azure Arc-enabled servers LevelUp training.
 
@@ -18,7 +18,7 @@ However, **for demo purposes only**, the below guide will allow you to use and o
   az vm list-usage --location "<location>" --output table
   ```
 
-  ![Screenshot showing az vm list-usage](Media\vcpu-availability.png)
+  ![Screenshot showing az vm list-usage](Media/vcpu-availability.png)
 
 * [Install or update Azure CLI to version 2.25.0 and above](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest). Use the below command to check your current installed version.
 
