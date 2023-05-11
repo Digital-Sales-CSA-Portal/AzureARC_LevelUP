@@ -113,19 +113,16 @@ ArcBox must be deployed to one of the following regions:
 
     ![LevelUp ArcBox Post-Deployment](Media/post-deployment-scripts.png)
 
-10. Once the scripts have completed, you should have 2 Linux and 2 Windows VM's, which can be found in **Hyper-V Manager** on the desktop:
+10. Once the scripts have completed, you should have 2 Linux, 2 Windows VM's, and a Windows SQL VM which can be found in **Hyper-V Manager** on the desktop:
 
     ![LevelUp ArcBox Hyper-V](Media/hyper-v-manager.png)
 
-11. Back in the Resource Group view, you can see that two of the Hyper-V VM's (CentOS & Win2K19) have already been onboarded to Azure Arc on your behalf:
-
-    ![LevelUp ArcBox Arc Onboarded VMs](Media/onboarded-vms.png)
 
 ## Required Credentials
 
 Use the below credentials for logging into the nested Hyper-V virtual machines:
 
-* Windows Server (2019/2022)
+* Windows Server (2019/2022/SQL)
   * Username: `Administrator`
   * Password: `ArcDemo123!!`
 * Linux (Ubuntu/CentOS)
