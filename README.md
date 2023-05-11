@@ -129,10 +129,10 @@ Use the below credentials for logging into the nested Hyper-V virtual machines:
   * Username: `arcdemo`
   * Password: `ArcDemo123!!`
 
-  ## Lets On Board These Server to Azure using ARC
+## Lets On Board These Server to Azure using ARC
 
-  [[Windows Server 2019 using Single Server Script](2019.md)]
- [] [Windows Server 2022 using Single Server Something Else](2019.md)]
-  [Ubuntu Server 01 using Single Server Script](2019.md)
+![Windows Server 2019 using Single Server Script](2019.md)
+![Windows Server 2022 using Single Server Something Else](2019.md)
+![Ubuntu Server 01 using Single Server Script](2019.md)
   [Ubuntu Server 02 using Single Server Script](2019.md)
   [Windows SQL Server using Single Server Script](2019.md)
