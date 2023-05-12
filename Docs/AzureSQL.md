@@ -2,6 +2,8 @@
 
 You can find the offical documentation from Microsoft Learn on Connecing your SQL Server to ARC [Here](https://learn.microsoft.com/en-us/sql/sql-server/azure-arc/connect?view=sql-server-ver16&tabs=windows)
 
+This way automaically installs SQL Agent on the VM, if you want to do this manually, Follow the Steps under the Windows 2019 or 2022 server, and add the SQL Agent Extension after it is ARC Enabled.
+
 ## Generate an onboarding script for SQL Server
 1. FromOn your ARCBox Client VM Or Console into ArcBox-SQL, Open up your browser, go to the Azure portal. Go to Azure Arc > SQL Server and select + Add
 
