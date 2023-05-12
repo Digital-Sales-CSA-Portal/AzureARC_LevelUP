@@ -24,6 +24,7 @@ To use a specific name for Azure Arc enabled Server instead of default host name
 ![SQL Server Details](/Media/server-details-sql-server-azure-arc.png)
 
 5. Select the SQL Server edition and license type you are using on this machine. Please note that some Arc-enabled SQL Server features are only available for SQL Servers with Software Assurance (Paid) or with Azure pay-as-you-go. For more information, review Manage SQL Server license type.
+* Select "Paid" Option
 
 6. Specify the SQL Server instance(s) you want to exclude from registering (if you have multiple instances installed on the server). Separate each excluded instance by a space.
 
